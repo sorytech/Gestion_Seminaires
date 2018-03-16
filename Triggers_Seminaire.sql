@@ -11,7 +11,7 @@ Begin
 end;
 / 
 --######################### CREATION DU TRIGGER CONFIRMATION RESERVATION SALLE 1 MOIS A L'AVANCE  ###############
-Create or replace trigger NbrSeminairePossibleParJour
+Create or replace trigger 
 Before insert on SEMINAIRE
 For each row
 Declare
