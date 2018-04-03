@@ -3,13 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/vues/Seminaire.java</file>
-            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/vues/SignIn.java</file>
-            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/vues/Conference.java</file>
-            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/vues/Prestataire.java</file>
-            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/vues/Menu.java</file>
-            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/vues/Conferencier.java</file>
-            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/vues/SignUp.java</file>
+            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/ProceduresJDBC/EditerSeminaire.java</file>
+            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/vues/FormConferencier.java</file>
+            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/ProceduresJDBC/EditerAll.java</file>
+            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/models/DefaultTableModele.java</file>
+            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/main/Requetes.java</file>
+            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/ProceduresJDBC/CreationID.java</file>
+            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/ProceduresJDBC/CreationSeminaire.java</file>
         </group>
     </open-files>
 </project-private>

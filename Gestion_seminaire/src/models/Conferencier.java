@@ -10,20 +10,32 @@ package models;
  * @author hpp
  */
 public class Conferencier {
+
     private int id;
+    private int idAnim;
     private String nom;
     private String prenom;
     private String adresse;
     private int tel;
     private String email;
 
-    public Conferencier(int id, String nom, String prenom, String adresse, int tel, String email) {
+    public Conferencier(int id, int idAnim, String nom, String prenom, String adresse, int tel, String email) {
         this.id = id;
+        this.idAnim = idAnim;
         this.nom = nom;
         this.prenom = prenom;
         this.adresse = adresse;
         this.tel = tel;
         this.email = email;
+
+    }
+
+    public int getIdAnim() {
+        return idAnim;
+    }
+
+    public void setIdAnim(int idAnim) {
+        this.idAnim = idAnim;
     }
 
     public Conferencier() {
@@ -76,7 +88,5 @@ public class Conferencier {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    
-    
+
 }

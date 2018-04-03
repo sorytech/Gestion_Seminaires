@@ -20,16 +20,22 @@ public class Seminaire {
     private int nombreMaxPlace;
     private enum duree {MATIN, APRES_MIDI,JOURNEE};
     private Date date;
+    private int idAnimateur;
+    private int idPrestataire;
+    private int idSalle;
 
-    public Seminaire(int id, String theme, double tarif, int nombreMaxPlace,enum duree,Date date) {
+    public Seminaire(int id, String theme, double tarif, int nombreMaxPlace, Date date, int idAnimateur, int idPrestataire, int idSalle) {
         this.id = id;
         this.theme = theme;
         this.tarif = tarif;
         this.nombreMaxPlace = nombreMaxPlace;
-        this.duree=duree;
         this.date = date;
+        this.idAnimateur = idAnimateur;
+        this.idPrestataire = idPrestataire;
+        this.idSalle = idSalle;
     }
 
+    
     public Seminaire() {
     }
 
@@ -73,10 +79,30 @@ public class Seminaire {
         this.date = date;
     }
 
-  
+    public int getIdAnimateur() {
+        return idAnimateur;
+    }
 
-    
-    
+    public void setIdAnimateur(int idAnimateur) {
+        this.idAnimateur = idAnimateur;
+    }
+
+    public int getIdPrestataire() {
+        return idPrestataire;
+    }
+
+    public void setIdPrestataire(int idPrestataire) {
+        this.idPrestataire = idPrestataire;
+    }
+
+    public int getIdSalle() {
+        return idSalle;
+    }
+
+    public void setIdSalle(int idSalle) {
+        this.idSalle = idSalle;
+    }
+
     
     
 }

@@ -14,11 +14,15 @@ import java.util.Date;
 public class Inscription {
     private Date date;
     private enum etat {confirme,attente,desister}
+    private int idParticipant;
+    private int idSeminaire;
 
-    public Inscription(Date date, enum etat) {
+    public Inscription(Date date, int idParticipant, int idSeminaire) {
         this.date = date;
-        this.etat=etat;
+        this.idParticipant = idParticipant;
+        this.idSeminaire = idSeminaire;
     }
+
 
     public Inscription() {
     }
@@ -30,6 +34,24 @@ public class Inscription {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public int getIdParticipant() {
+        return idParticipant;
+    }
+
+    public void setIdParticipant(int idParticipant) {
+        this.idParticipant = idParticipant;
+    }
+
+    public int getIdSeminaire() {
+        return idSeminaire;
+    }
+
+    public void setIdSeminaire(int idSeminaire) {
+        this.idSeminaire = idSeminaire;
+    }
+
+   
     
     
 }

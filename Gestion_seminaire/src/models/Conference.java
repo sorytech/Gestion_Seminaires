@@ -14,15 +14,37 @@ public class Conference {
     private String support;
     private double montantPrestation;
     private String activites;
+    private int idConferencier;
+    private int idSeminaire;
 
-    public Conference(String titre, String support, double montantPrestation, String activites) {
+    public Conference(String titre, String support, double montantPrestation, String activites, int idConferencier, int idSeminaire) {
         this.titre = titre;
         this.support = support;
         this.montantPrestation = montantPrestation;
         this.activites = activites;
+        this.idConferencier = idConferencier;
+        this.idSeminaire = idSeminaire;
     }
 
+  
+
     public Conference() {
+    }
+
+    public int getIdConferencier() {
+        return idConferencier;
+    }
+
+    public void setIdConferencier(int idConferencier) {
+        this.idConferencier = idConferencier;
+    }
+
+    public int getIdSeminaire() {
+        return idSeminaire;
+    }
+
+    public void setIdSeminaire(int idSeminaire) {
+        this.idSeminaire = idSeminaire;
     }
 
     public String getTitre() {
