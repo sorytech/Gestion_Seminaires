@@ -5,34 +5,53 @@
  */
 package vues;
 
-import Connexion.Connexion;
-import ProceduresJDBC.EditerSeminaire;
-import main.Requetes;
+import ProceduresJDBC.CreationSeminaire;
+import ProceduresJDBC.EditerAll;
 import java.awt.Color;
-import java.sql.Connection;
+import static java.awt.image.ImageObserver.WIDTH;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import models.Animateur;
+import models.Conferencier;
+import models.DefaultTableModeleAll;
+import models.Prestataire;
+import models.Salle;
+import models.Seminaire;
+import org.jdesktop.swingx.JXDatePicker;
 
 /**
  *
  * @author hpp
  */
 public class FormSeminaire extends javax.swing.JFrame {
-
+ DefaultTableModeleAll tab=new DefaultTableModeleAll();
+  EditerAll e = new EditerAll();
     /**
      * Creates new form Seminaire
+     * @throws java.sql.SQLException
+     * @throws java.text.ParseException
      */
+ @SuppressWarnings("empty-statement")
     public FormSeminaire() throws SQLException, ParseException {
         initComponents();
-        EditerSeminaire e=new EditerSeminaire();
-        for(String theme: e.EditeSemaire()){
-            jComboBox2.addItem(theme);
+        for (Prestataire prest : e.editerPrestataire()) {
+            cmbSemPresta.addItem(String.valueOf(prest.getId()));
         }
+        for (Animateur anim : e.editerAnimateur()) {
+            cmbSemAnim.addItem(String.valueOf(anim.getId()));
+        }
+        String [] listeDuree = {"MATIN","APRES-MIDI","JOURNEE"};
+        for(String dure : listeDuree){
+            CmbSemDuréeSem.addItem(dure);
+        }
+        tabSeminaire.setModel(tab.tableModelSeminaire());
     }
 
     /**
@@ -51,28 +70,32 @@ public class FormSeminaire extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jTextField4 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        lblSemIdAnim = new javax.swing.JLabel();
+        CmbSemDuréeSem = new javax.swing.JComboBox<>();
+        lblSemIdPresta = new javax.swing.JLabel();
+        lblSemNumSalle = new javax.swing.JLabel();
+        lblSemThemeSem = new javax.swing.JLabel();
+        cmbSemAnim = new javax.swing.JComboBox<>();
+        lblSemNbPlace = new javax.swing.JLabel();
+        lblSemTarifPers = new javax.swing.JLabel();
+        lblSemDateSem = new javax.swing.JLabel();
+        dPickerSeminaire = new org.jdesktop.swingx.JXDatePicker();
+        txtSemNbPlace = new javax.swing.JTextField();
+        txtSemTarifPers = new javax.swing.JTextField();
+        lblSemDureeSem = new javax.swing.JLabel();
+        cmbSemPresta = new javax.swing.JComboBox<>();
+        txtSemThemeSem = new javax.swing.JTextField();
+        btSemCreat = new javax.swing.JButton();
+        btSemDelete = new javax.swing.JButton();
+        btSemUpdate = new javax.swing.JButton();
+        btSemCancel = new javax.swing.JButton();
+        cmbSemSalle = new javax.swing.JComboBox<>();
+        lblSemDepenseMin = new javax.swing.JLabel();
+        lblSemRecetteMax = new javax.swing.JLabel();
+        lblSemRecetteMin = new javax.swing.JLabel();
+        lblSemDepenseMax = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabSeminaire = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLocationByPlatform(true);
@@ -150,7 +173,7 @@ public class FormSeminaire extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(264, 264, 264)
                 .addComponent(jLabel14)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 579, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 596, Short.MAX_VALUE)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -171,214 +194,258 @@ public class FormSeminaire extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel2.setText("ID Animateur :");
+        lblSemIdAnim.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblSemIdAnim.setForeground(new java.awt.Color(51, 51, 51));
+        lblSemIdAnim.setText("ID Animateur :");
 
-        jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jComboBox1.setForeground(new java.awt.Color(51, 51, 51));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setBorder(null);
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        CmbSemDuréeSem.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        CmbSemDuréeSem.setForeground(new java.awt.Color(51, 51, 51));
+        CmbSemDuréeSem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "choisir la durée" }));
+        CmbSemDuréeSem.setBorder(null);
+        CmbSemDuréeSem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                CmbSemDuréeSemActionPerformed(evt);
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel3.setText("ID Prestataire :");
+        lblSemIdPresta.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblSemIdPresta.setForeground(new java.awt.Color(51, 51, 51));
+        lblSemIdPresta.setText("ID Prestataire :");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel4.setText("N° Salle :");
+        lblSemNumSalle.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblSemNumSalle.setForeground(new java.awt.Color(51, 51, 51));
+        lblSemNumSalle.setText("N° Salle :");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel5.setText("Theme Seminaire : ");
+        lblSemThemeSem.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblSemThemeSem.setForeground(new java.awt.Color(51, 51, 51));
+        lblSemThemeSem.setText("Theme Seminaire : ");
 
-        jComboBox2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jComboBox2.setForeground(new java.awt.Color(51, 51, 51));
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selectionnez un Animateur" }));
-        jComboBox2.setBorder(null);
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        cmbSemAnim.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cmbSemAnim.setForeground(new java.awt.Color(51, 51, 51));
+        cmbSemAnim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selectionnez un Animateur" }));
+        cmbSemAnim.setBorder(null);
+        cmbSemAnim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                cmbSemAnimActionPerformed(evt);
             }
         });
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        lblSemNbPlace.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblSemNbPlace.setForeground(new java.awt.Color(51, 51, 51));
+        lblSemNbPlace.setText("  Nombre de Place :");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel6.setText("  Nombre de Place :");
+        lblSemTarifPers.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblSemTarifPers.setForeground(new java.awt.Color(51, 51, 51));
+        lblSemTarifPers.setText(" Tarif/Personne :");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel7.setText(" Tarif/Personne :");
+        lblSemDateSem.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblSemDateSem.setForeground(new java.awt.Color(51, 51, 51));
+        lblSemDateSem.setText("Date :");
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel8.setText("Date :");
+        txtSemNbPlace.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtSemNbPlace.setForeground(new java.awt.Color(51, 51, 51));
+        txtSemNbPlace.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        txtSemTarifPers.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtSemTarifPers.setForeground(new java.awt.Color(51, 51, 51));
+        txtSemTarifPers.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
-        jTextField3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField3.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        lblSemDureeSem.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblSemDureeSem.setForeground(new java.awt.Color(51, 51, 51));
+        lblSemDureeSem.setText(" Durée Seminaire :");
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel9.setText(" Durée Seminaire :");
-
-        jComboBox3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jComboBox3.setForeground(new java.awt.Color(51, 51, 51));
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selectionnez Seminaire" }));
-        jComboBox3.setBorder(null);
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+        cmbSemPresta.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cmbSemPresta.setForeground(new java.awt.Color(51, 51, 51));
+        cmbSemPresta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selectionnez Prestataire" }));
+        cmbSemPresta.setBorder(null);
+        cmbSemPresta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
+                cmbSemPrestaActionPerformed(evt);
             }
         });
 
-        jTextField4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField4.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        txtSemThemeSem.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtSemThemeSem.setForeground(new java.awt.Color(51, 51, 51));
+        txtSemThemeSem.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(51, 51, 51));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Ok_30px.png"))); // NOI18N
-        jButton1.setText("Create");
-
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(51, 51, 51));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Trash_30px.png"))); // NOI18N
-        jButton2.setText("Delete");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btSemCreat.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btSemCreat.setForeground(new java.awt.Color(51, 51, 51));
+        btSemCreat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Ok_30px.png"))); // NOI18N
+        btSemCreat.setText("Create");
+        btSemCreat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btSemCreatActionPerformed(evt);
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(51, 51, 51));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Edit_30px.png"))); // NOI18N
-        jButton3.setText("Update");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btSemDelete.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btSemDelete.setForeground(new java.awt.Color(51, 51, 51));
+        btSemDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Trash_30px.png"))); // NOI18N
+        btSemDelete.setText("Delete");
+        btSemDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btSemDeleteActionPerformed(evt);
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(51, 51, 51));
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Cancel_30px.png"))); // NOI18N
-        jButton4.setText("Cancel");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btSemUpdate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btSemUpdate.setForeground(new java.awt.Color(51, 51, 51));
+        btSemUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Edit_30px.png"))); // NOI18N
+        btSemUpdate.setText("Update");
+        btSemUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btSemUpdateActionPerformed(evt);
             }
         });
+
+        btSemCancel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btSemCancel.setForeground(new java.awt.Color(51, 51, 51));
+        btSemCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Cancel_30px.png"))); // NOI18N
+        btSemCancel.setText("Cancel");
+        btSemCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSemCancelActionPerformed(evt);
+            }
+        });
+
+        cmbSemSalle.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cmbSemSalle.setForeground(new java.awt.Color(51, 51, 51));
+        cmbSemSalle.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selectionnez Salle" }));
+        cmbSemSalle.setBorder(null);
+        cmbSemSalle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbSemSalleActionPerformed(evt);
+            }
+        });
+
+        lblSemDepenseMin.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblSemDepenseMin.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+
+        lblSemRecetteMax.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblSemRecetteMax.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+
+        lblSemRecetteMin.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblSemRecetteMin.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+
+        lblSemDepenseMax.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblSemDepenseMax.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(163, 163, 163)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel8))
-                                .addGap(18, 18, 18)
+                                .addGap(21, 21, 21)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1)
-                                    .addComponent(jXDatePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(lblSemNumSalle)
+                                            .addComponent(lblSemIdPresta)
+                                            .addComponent(lblSemDateSem))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(dPickerSeminaire, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(cmbSemPresta, 0, 355, Short.MAX_VALUE)
+                                            .addComponent(cmbSemSalle, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addGap(3, 3, 3)
+                                        .addComponent(lblSemIdAnim)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cmbSemAnim, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(lblSemTarifPers, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblSemDureeSem, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblSemNbPlace, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(66, 66, 66)
+                                        .addComponent(lblSemThemeSem)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE))))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(45, 45, 45)
-                                .addComponent(jLabel5)
+                                .addContainerGap()
+                                .addComponent(btSemCreat, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btSemUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btSemDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btSemCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField2)
-                            .addComponent(jTextField3)
-                            .addComponent(jComboBox1, 0, 401, Short.MAX_VALUE)
-                            .addComponent(jTextField4))))
-                .addGap(19, 19, 19))
+                            .addComponent(txtSemNbPlace)
+                            .addComponent(txtSemTarifPers)
+                            .addComponent(CmbSemDuréeSem, 0, 401, Short.MAX_VALUE)
+                            .addComponent(txtSemThemeSem)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(lblSemDepenseMin, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblSemDepenseMax, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblSemRecetteMin, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblSemRecetteMax, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(txtSemNbPlace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSemNbPlace)
+                    .addComponent(cmbSemAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSemIdAnim))
                 .addGap(20, 20, 20)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblSemIdPresta)
+                    .addComponent(lblSemTarifPers)
+                    .addComponent(txtSemTarifPers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbSemPresta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel9))
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblSemNumSalle)
+                        .addComponent(lblSemDureeSem)
+                        .addComponent(cmbSemSalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CmbSemDuréeSem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblSemDateSem)
+                            .addComponent(dPickerSeminaire, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                            .addComponent(lblSemThemeSem)
+                            .addComponent(txtSemThemeSem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btSemCreat, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btSemUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btSemDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btSemCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblSemDepenseMin, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblSemDepenseMax, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblSemRecetteMin, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblSemRecetteMax, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabSeminaire.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
@@ -404,7 +471,7 @@ public class FormSeminaire extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabSeminaire);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -421,10 +488,10 @@ public class FormSeminaire extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1097, 704));
+        setSize(new java.awt.Dimension(1114, 704));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -441,29 +508,36 @@ public class FormSeminaire extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jLabel1MousePressed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void CmbSemDuréeSemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CmbSemDuréeSemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_CmbSemDuréeSemActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void cmbSemAnimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSemAnimActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_cmbSemAnimActionPerformed
 
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox3ActionPerformed
+    private void cmbSemPrestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSemPrestaActionPerformed
+        int idPrestataire = Integer.parseInt((String)cmbSemPresta.getSelectedItem());
+     try {
+         for (Salle salSem : e.editerSalle(idPrestataire)) {
+             cmbSemSalle.addItem(String.valueOf(salSem.getNumero()));
+         }
+     } catch (SQLException ex) {
+         Logger.getLogger(FormSeminaire.class.getName()).log(Level.SEVERE, null, ex);
+     }
+    }//GEN-LAST:event_cmbSemPrestaActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btSemDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSemDeleteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btSemDeleteActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btSemUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSemUpdateActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btSemUpdateActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btSemCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSemCancelActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btSemCancelActionPerformed
 
     private void jLabel10MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MousePressed
         // TODO add your handling code here:
@@ -473,6 +547,51 @@ public class FormSeminaire extends javax.swing.JFrame {
         new FormMenu().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jLabel16MousePressed
+
+    private void cmbSemSalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSemSalleActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_cmbSemSalleActionPerformed
+
+    private void btSemCreatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSemCreatActionPerformed
+        int idAnimateur = Integer.parseInt((String)cmbSemAnim.getSelectedItem());
+        int idPrestataire = Integer.parseInt((String)cmbSemPresta.getSelectedItem());
+        int numSalle = Integer.parseInt((String)cmbSemSalle.getSelectedItem());
+        String dureeSem= (String) cmbSemSalle.getSelectedItem();
+        Date dateSem=dPickerSeminaire.getDate();
+        int nbPlace = Integer.parseInt(txtSemNbPlace.getText());
+        double tarifPers = Double.parseDouble(txtSemTarifPers.getText());
+        String theme = txtSemThemeSem.getText();
+        Seminaire seminaire = new Seminaire(WIDTH, idAnimateur, idPrestataire, numSalle, theme,nbPlace, tarifPers,dureeSem,dateSem);
+        CreationSeminaire sem;
+     try {
+         sem = new CreationSeminaire();
+         sem.creerSeminaire(seminaire);
+         tabSeminaire.setModel(tab.tableModelSeminaire());
+         double [] listeTarif=e.editerTarifPrestataire(idPrestataire);
+         double tarifRepas=listeTarif[0];
+         double tarifPause=listeTarif[1];
+         double depMin=0,depMax=0;
+         double beneficeMin=0, beneficeMax=0;
+        if(dureeSem.equals("JOURNEE")){
+            depMin=(tarifRepas + tarifPause)*(nbPlace/2);
+            depMax=(tarifRepas + tarifPause)*(nbPlace);
+     
+        }else{
+            depMin=tarifPause*(nbPlace/2);
+            depMax=tarifPause*(nbPlace);            
+        }
+        beneficeMin=tarifPers*(nbPlace/2);
+        beneficeMax=tarifPers*nbPlace;
+        lblSemDepenseMin.setText("Depense Min "+depMin);
+        lblSemDepenseMax.setText("Depense Max "+depMax);
+        lblSemRecetteMin.setText("Recette Min "+beneficeMin);
+        lblSemRecetteMax.setText("Recette Max "+beneficeMax);
+     } catch (ParseException | SQLException ex) {
+         Logger.getLogger(FormSeminaire.class.getName()).log(Level.SEVERE, null, ex);
+     }
+           
+    }//GEN-LAST:event_btSemCreatActionPerformed
     private void setColor(JPanel panel) {
         panel.setBackground(new Color(197, 197, 197));
     }
@@ -550,34 +669,38 @@ public class FormSeminaire extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JComboBox<String> CmbSemDuréeSem;
+    private javax.swing.JButton btSemCancel;
+    private javax.swing.JButton btSemCreat;
+    private javax.swing.JButton btSemDelete;
+    private javax.swing.JButton btSemUpdate;
+    private javax.swing.JComboBox<String> cmbSemAnim;
+    private javax.swing.JComboBox<String> cmbSemPresta;
+    private javax.swing.JComboBox<String> cmbSemSalle;
+    private org.jdesktop.swingx.JXDatePicker dPickerSeminaire;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
+    private javax.swing.JLabel lblSemDateSem;
+    private javax.swing.JLabel lblSemDepenseMax;
+    private javax.swing.JLabel lblSemDepenseMin;
+    private javax.swing.JLabel lblSemDureeSem;
+    private javax.swing.JLabel lblSemIdAnim;
+    private javax.swing.JLabel lblSemIdPresta;
+    private javax.swing.JLabel lblSemNbPlace;
+    private javax.swing.JLabel lblSemNumSalle;
+    private javax.swing.JLabel lblSemRecetteMax;
+    private javax.swing.JLabel lblSemRecetteMin;
+    private javax.swing.JLabel lblSemTarifPers;
+    private javax.swing.JLabel lblSemThemeSem;
+    private javax.swing.JTable tabSeminaire;
+    private javax.swing.JTextField txtSemNbPlace;
+    private javax.swing.JTextField txtSemTarifPers;
+    private javax.swing.JTextField txtSemThemeSem;
     // End of variables declaration//GEN-END:variables
 }

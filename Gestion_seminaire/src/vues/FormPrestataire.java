@@ -5,22 +5,34 @@
  */
 package vues;
 
+import ProceduresJDBC.CreationSeminaire;
 import java.awt.Color;
+import static java.awt.image.ImageObserver.WIDTH;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import models.Animateur;
+import models.DefaultTableModeleAll;
+import models.Prestataire;
 
 /**
  *
  * @author hpp
  */
 public class FormPrestataire extends javax.swing.JFrame {
-
+DefaultTableModeleAll tab=new DefaultTableModeleAll();
     /**
      * Creates new form Prestataire
+     * @throws java.text.ParseException
+     * @throws java.sql.SQLException
      */
-    public FormPrestataire() {
+    public FormPrestataire() throws ParseException, SQLException {
         initComponents();
+        tabPrestataire.setModel(tab.tableModelPrestataire());
     }
 
     /**
@@ -38,31 +50,31 @@ public class FormPrestataire extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabPrestataire = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        lblPrestataireNom = new javax.swing.JLabel();
+        lblPrestataireTarifPause = new javax.swing.JLabel();
+        lblPrestataireAdresse = new javax.swing.JLabel();
+        txtPrestataireNom = new javax.swing.JTextField();
+        lblPrestataireTarifRepas = new javax.swing.JLabel();
+        lblPrestataireTel = new javax.swing.JLabel();
+        txtPrestataireTarifRepas = new javax.swing.JTextField();
+        txtPrestataireTarifPause = new javax.swing.JTextField();
+        lblPrestataireEmail = new javax.swing.JLabel();
+        txtPrestataireEmail = new javax.swing.JTextField();
+        btPrestataireCreate = new javax.swing.JButton();
+        btPrestataireDelete = new javax.swing.JButton();
+        btPrestataireUpdate = new javax.swing.JButton();
+        btPrestataireCancel = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        txtPrestataireTel = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        txtArPrestataireAdr = new javax.swing.JTextArea();
 
         setLocationByPlatform(true);
         setUndecorated(true);
@@ -145,7 +157,7 @@ public class FormPrestataire extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabPrestataire.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -171,82 +183,87 @@ public class FormPrestataire extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabPrestataire);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel2.setText("Nom :");
+        lblPrestataireNom.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblPrestataireNom.setForeground(new java.awt.Color(51, 51, 51));
+        lblPrestataireNom.setText("Nom :");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel3.setText("Tarif Pause :");
+        lblPrestataireTarifPause.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblPrestataireTarifPause.setForeground(new java.awt.Color(51, 51, 51));
+        lblPrestataireTarifPause.setText("Tarif Pause :");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel4.setText("Adresse :");
+        lblPrestataireAdresse.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblPrestataireAdresse.setForeground(new java.awt.Color(51, 51, 51));
+        lblPrestataireAdresse.setText("Adresse :");
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        txtPrestataireNom.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtPrestataireNom.setForeground(new java.awt.Color(51, 51, 51));
+        txtPrestataireNom.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel6.setText("Tarif Repas :");
+        lblPrestataireTarifRepas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblPrestataireTarifRepas.setForeground(new java.awt.Color(51, 51, 51));
+        lblPrestataireTarifRepas.setText("Tarif Repas :");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel7.setText("Téléphone :");
+        lblPrestataireTel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblPrestataireTel.setForeground(new java.awt.Color(51, 51, 51));
+        lblPrestataireTel.setText("Téléphone :");
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        txtPrestataireTarifRepas.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtPrestataireTarifRepas.setForeground(new java.awt.Color(51, 51, 51));
+        txtPrestataireTarifRepas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
-        jTextField3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField3.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        txtPrestataireTarifPause.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtPrestataireTarifPause.setForeground(new java.awt.Color(51, 51, 51));
+        txtPrestataireTarifPause.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel9.setText("E-mail :");
+        lblPrestataireEmail.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblPrestataireEmail.setForeground(new java.awt.Color(51, 51, 51));
+        lblPrestataireEmail.setText("E-mail :");
 
-        jTextField4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField4.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        txtPrestataireEmail.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtPrestataireEmail.setForeground(new java.awt.Color(51, 51, 51));
+        txtPrestataireEmail.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(51, 51, 51));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Ok_30px.png"))); // NOI18N
-        jButton1.setText("Create");
-
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(51, 51, 51));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Trash_30px.png"))); // NOI18N
-        jButton2.setText("Delete");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btPrestataireCreate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btPrestataireCreate.setForeground(new java.awt.Color(51, 51, 51));
+        btPrestataireCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Ok_30px.png"))); // NOI18N
+        btPrestataireCreate.setText("Create");
+        btPrestataireCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btPrestataireCreateActionPerformed(evt);
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(51, 51, 51));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Edit_30px.png"))); // NOI18N
-        jButton3.setText("Update");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btPrestataireDelete.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btPrestataireDelete.setForeground(new java.awt.Color(51, 51, 51));
+        btPrestataireDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Trash_30px.png"))); // NOI18N
+        btPrestataireDelete.setText("Delete");
+        btPrestataireDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btPrestataireDeleteActionPerformed(evt);
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(51, 51, 51));
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Cancel_30px.png"))); // NOI18N
-        jButton4.setText("Cancel");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btPrestataireUpdate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btPrestataireUpdate.setForeground(new java.awt.Color(51, 51, 51));
+        btPrestataireUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Edit_30px.png"))); // NOI18N
+        btPrestataireUpdate.setText("Update");
+        btPrestataireUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btPrestataireUpdateActionPerformed(evt);
+            }
+        });
+
+        btPrestataireCancel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btPrestataireCancel.setForeground(new java.awt.Color(51, 51, 51));
+        btPrestataireCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Cancel_30px.png"))); // NOI18N
+        btPrestataireCancel.setText("Cancel");
+        btPrestataireCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPrestataireCancelActionPerformed(evt);
             }
         });
 
@@ -270,17 +287,17 @@ public class FormPrestataire extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(51, 51, 51));
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Email_30px.png"))); // NOI18N
 
-        jTextField6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField6.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        txtPrestataireTel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtPrestataireTel.setForeground(new java.awt.Color(51, 51, 51));
+        txtPrestataireTel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(51, 51, 51));
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Bank_Euro_30px.png"))); // NOI18N
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane3.setViewportView(jTextArea2);
+        txtArPrestataireAdr.setColumns(20);
+        txtArPrestataireAdr.setRows(5);
+        jScrollPane3.setViewportView(txtArPrestataireAdr);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -291,41 +308,41 @@ public class FormPrestataire extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel9))
+                            .addComponent(lblPrestataireNom)
+                            .addComponent(lblPrestataireTel)
+                            .addComponent(lblPrestataireEmail))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
-                            .addComponent(jTextField6)
-                            .addComponent(jTextField4))
+                            .addComponent(txtPrestataireNom, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
+                            .addComponent(txtPrestataireTel)
+                            .addComponent(txtPrestataireEmail))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addGap(46, 46, 46)
-                                .addComponent(jLabel6))
+                                .addComponent(lblPrestataireTarifRepas))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3))
+                                .addComponent(lblPrestataireTarifPause))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4))))
+                                .addComponent(lblPrestataireAdresse))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btPrestataireCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btPrestataireUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btPrestataireDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btPrestataireCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
-                    .addComponent(jTextField2)
+                    .addComponent(txtPrestataireTarifPause, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+                    .addComponent(txtPrestataireTarifRepas)
                     .addComponent(jScrollPane3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -343,20 +360,20 @@ public class FormPrestataire extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel6))
+                                .addComponent(txtPrestataireTarifRepas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblPrestataireTarifRepas))
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel2))
+                                .addComponent(txtPrestataireNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblPrestataireNom))
                             .addComponent(jLabel10)
                             .addComponent(jLabel17))
                         .addGap(17, 17, 17)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel7)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel3)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblPrestataireTel)
+                                .addComponent(txtPrestataireTarifPause, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblPrestataireTarifPause)
+                                .addComponent(txtPrestataireTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel11)))
                     .addComponent(jLabel8))
                 .addGap(18, 18, 18)
@@ -368,17 +385,17 @@ public class FormPrestataire extends javax.swing.JFrame {
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel13)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel9)))
+                                        .addComponent(txtPrestataireEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblPrestataireEmail)))
                                 .addGap(31, 31, 31))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
+                                .addComponent(lblPrestataireAdresse)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btPrestataireCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btPrestataireUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btPrestataireDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btPrestataireCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(25, 25, 25))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -422,22 +439,39 @@ public class FormPrestataire extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jLabel1MousePressed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btPrestataireDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPrestataireDeleteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btPrestataireDeleteActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btPrestataireUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPrestataireUpdateActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btPrestataireUpdateActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btPrestataireCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPrestataireCancelActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btPrestataireCancelActionPerformed
 
     private void jLabel16MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MousePressed
         new FormMenu().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jLabel16MousePressed
+
+    private void btPrestataireCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPrestataireCreateActionPerformed
+        String nomPrestat= (String) txtPrestataireNom .getText();
+        String adrPrestat= (String) txtArPrestataireAdr.getText();
+        int telPrestat = Integer.parseInt(txtPrestataireTel.getText());
+        String emailPrestat= (String) txtPrestataireEmail.getText();
+        double TarifRepasPrestat=Double.parseDouble((String)txtPrestataireTarifRepas.getText()) ;
+        double TarifPausePrestat=Double.parseDouble((String)txtPrestataireTarifPause.getText()) ;
+        Prestataire presta=new Prestataire(WIDTH, nomPrestat, adrPrestat, telPrestat, emailPrestat, TarifRepasPrestat,TarifPausePrestat);
+        try {
+            CreationSeminaire sem = new CreationSeminaire();
+            sem.creerPrestataire(presta);
+            tabPrestataire.setModel(tab.tableModelPrestataire());
+        } catch (ParseException | SQLException ex) {
+            Logger.getLogger(FormPrestataire.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btPrestataireCreateActionPerformed
  private void setColor(JPanel panel) {
         panel.setBackground(new Color(197, 197, 197));
     }
@@ -501,16 +535,22 @@ public class FormPrestataire extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FormPrestataire().setVisible(true);
+                try {
+                    new FormPrestataire().setVisible(true);
+                } catch (ParseException ex) {
+                    Logger.getLogger(FormPrestataire.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(FormPrestataire.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btPrestataireCancel;
+    private javax.swing.JButton btPrestataireCreate;
+    private javax.swing.JButton btPrestataireDelete;
+    private javax.swing.JButton btPrestataireUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -519,24 +559,24 @@ public class FormPrestataire extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JLabel lblPrestataireAdresse;
+    private javax.swing.JLabel lblPrestataireEmail;
+    private javax.swing.JLabel lblPrestataireNom;
+    private javax.swing.JLabel lblPrestataireTarifPause;
+    private javax.swing.JLabel lblPrestataireTarifRepas;
+    private javax.swing.JLabel lblPrestataireTel;
+    private javax.swing.JTable tabPrestataire;
+    private javax.swing.JTextArea txtArPrestataireAdr;
+    private javax.swing.JTextField txtPrestataireEmail;
+    private javax.swing.JTextField txtPrestataireNom;
+    private javax.swing.JTextField txtPrestataireTarifPause;
+    private javax.swing.JTextField txtPrestataireTarifRepas;
+    private javax.swing.JTextField txtPrestataireTel;
     // End of variables declaration//GEN-END:variables
 }

@@ -940,8 +940,12 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel15MouseExited
 
     private void jPanel9MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MousePressed
-      //this.jPanel9.setOpaque(false);
-        new FormConference().show();
+        try {
+            //this.jPanel9.setOpaque(false);
+            new FormConference().show();
+        } catch (ParseException ex) {
+            Logger.getLogger(FormMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
         
     }//GEN-LAST:event_jPanel9MousePressed
@@ -964,12 +968,22 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel3MousePressed
 
     private void jPanel7MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MousePressed
-        new FormInscription().show();
+        try {
+            new FormInscription().show();
+        } catch (ParseException ex) {
+            Logger.getLogger(FormMenu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(FormMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
     }//GEN-LAST:event_jPanel7MousePressed
 
     private void jPanel8MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MousePressed
-        new FormPrestataire().show();
+        try {
+            new FormPrestataire().show();
+        } catch (ParseException | SQLException ex) {
+            Logger.getLogger(FormMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
     }//GEN-LAST:event_jPanel8MousePressed
 

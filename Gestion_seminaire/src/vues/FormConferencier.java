@@ -5,7 +5,6 @@
  */
 package vues;
 
-
 import ProceduresJDBC.CreationSeminaire;
 import ProceduresJDBC.EditerAll;
 import java.awt.Color;
@@ -16,9 +15,10 @@ import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import models.Animateur;
 import models.Conferencier;
-import models.DefaultTableModele;
+import models.DefaultTableModeleAll;
 
 /**
  *
@@ -26,20 +26,21 @@ import models.DefaultTableModele;
  */
 public class FormConferencier extends javax.swing.JFrame {
 
+    DefaultTableModeleAll tab = new DefaultTableModeleAll();
+
     /**
      * Creates new form Conferencier
+     *
      * @throws java.text.ParseException
      * @throws java.sql.SQLException
      */
     public FormConferencier() throws ParseException, SQLException {
         initComponents();
-        EditerAll e=new EditerAll();
-        for(Animateur anim : e.editerAnimateur()){
+        EditerAll e = new EditerAll();
+        for (Animateur anim : e.editerAnimateur()) {
             ComboIdAnimateur.addItem(String.valueOf(anim.getId()));
         }
-        DefaultTableModele tab=new DefaultTableModele();
         tabConferencier.setModel(tab.tableModelConferencier());
-        tab.tableModelConferencier().fireTableDataChanged();
     }
 
     /**
@@ -448,8 +449,8 @@ public class FormConferencier extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel4MouseExited
 
     private void jLabel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MousePressed
-     new FormMenu().setVisible(true);
-     this.setVisible(false);
+        new FormMenu().setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jLabel1MousePressed
 
     private void btCancelConferencierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelConferencierActionPerformed
@@ -474,17 +475,18 @@ public class FormConferencier extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel16MousePressed
 
     private void btCreateConferencierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCreateConferencierActionPerformed
-        int idAnimateur=Integer.parseInt((String)ComboIdAnimateur.getSelectedItem());
-        String nomConf=txtNomConferencier.getText();
-        String prenomConf=txtPrenomConferencier.getText();
-        String adresseConf=txtAreaAdresseConferencier.getText();
-        int telConf=Integer.parseInt(txtTelConferencier.getText());
-        String emailConf=txtEmailConferencier.getText();
-        Conferencier conferencier=new Conferencier(WIDTH,idAnimateur ,nomConf ,prenomConf ,adresseConf ,telConf ,emailConf );
+        int idAnimateur = Integer.parseInt((String) ComboIdAnimateur.getSelectedItem());
+        String nomConf = txtNomConferencier.getText();
+        String prenomConf = txtPrenomConferencier.getText();
+        String adresseConf = txtAreaAdresseConferencier.getText();
+        int telConf = Integer.parseInt(txtTelConferencier.getText());
+        String emailConf = txtEmailConferencier.getText();
+        Conferencier conferencier = new Conferencier(WIDTH, idAnimateur, nomConf, prenomConf, adresseConf, telConf, emailConf);
         try {
-            CreationSeminaire sem=new CreationSeminaire();
+            CreationSeminaire sem = new CreationSeminaire();
             sem.creerConferencier(conferencier);
-            
+            tabConferencier.setModel(tab.tableModelConferencier());
+
         } catch (ParseException | SQLException ex) {
             Logger.getLogger(FormConferencier.class.getName()).log(Level.SEVERE, null, ex);
         }

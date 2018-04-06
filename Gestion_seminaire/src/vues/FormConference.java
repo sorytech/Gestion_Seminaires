@@ -5,23 +5,45 @@
  */
 package vues;
 
+import ProceduresJDBC.CreationSeminaire;
+import ProceduresJDBC.EditerAll;
 import java.awt.Color;
+import static java.awt.image.ImageObserver.WIDTH;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import models.Animateur;
+import models.Conference;
+import models.Conferencier;
+import models.DefaultTableModeleAll;
+import models.Prestataire;
+import models.Seminaire;
 
 /**
  *
  * @author hpp
  */
 public class FormConference extends javax.swing.JFrame {
-
+ DefaultTableModeleAll tab=new DefaultTableModeleAll();
+  EditerAll e = new EditerAll();
     /**
      * Creates new form Home
+     * @throws java.text.ParseException
+     * @throws java.sql.SQLException
      */
-    public FormConference() {
+    public FormConference() throws ParseException, SQLException {
         initComponents();
-        this.setLocationRelativeTo(null);
+        for (Conferencier conferencier : e.editerConferencier()) {
+            cmbConferenceIdConf.addItem(String.valueOf(conferencier.getId()));
+        }
+        for (Seminaire sem : e.editerSeminaire()) {
+            cmbConferenceIdSem.addItem(String.valueOf(sem.getId()));
+        }
+        tabConference.setModel(tab.tableModelConference());
     }
 
     /**
@@ -40,30 +62,30 @@ public class FormConference extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jTextField5 = new javax.swing.JTextField();
+        lblConferenceIdSem = new javax.swing.JLabel();
+        lblConferenceIdConf = new javax.swing.JLabel();
+        lblConferenceTitreConf = new javax.swing.JLabel();
+        cmbConferenceIdSem = new javax.swing.JComboBox<>();
+        lblConferenceSupport = new javax.swing.JLabel();
+        lblConferenceMontantPrest = new javax.swing.JLabel();
+        txtConferenceMontantPres = new javax.swing.JTextField();
+        lblConferenceActivites = new javax.swing.JLabel();
+        txtConferenceTitreConf = new javax.swing.JTextField();
+        btConferenceCreate = new javax.swing.JButton();
+        btConferenceDelete = new javax.swing.JButton();
+        btConferenceUpdate = new javax.swing.JButton();
+        btConferenceCancel = new javax.swing.JButton();
+        txtConferenceActivites = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        cmbConferenceIdConf = new javax.swing.JComboBox<>();
         jLabel17 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        txtConferenceSupport = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabConference = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setUndecorated(true);
@@ -173,86 +195,92 @@ public class FormConference extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel2.setText("ID Seminaire :");
+        lblConferenceIdSem.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblConferenceIdSem.setForeground(new java.awt.Color(51, 51, 51));
+        lblConferenceIdSem.setText("ID Seminaire :");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel3.setText("ID Conferencier :");
+        lblConferenceIdConf.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblConferenceIdConf.setForeground(new java.awt.Color(51, 51, 51));
+        lblConferenceIdConf.setText("ID Conferencier :");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel4.setText("Titre Conférence :");
+        lblConferenceTitreConf.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblConferenceTitreConf.setForeground(new java.awt.Color(51, 51, 51));
+        lblConferenceTitreConf.setText("Titre Conférence :");
 
-        jComboBox2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jComboBox2.setForeground(new java.awt.Color(51, 51, 51));
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.setBorder(null);
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        cmbConferenceIdSem.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cmbConferenceIdSem.setForeground(new java.awt.Color(51, 51, 51));
+        cmbConferenceIdSem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selectionnez Seminaire" }));
+        cmbConferenceIdSem.setToolTipText("");
+        cmbConferenceIdSem.setBorder(null);
+        cmbConferenceIdSem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                cmbConferenceIdSemActionPerformed(evt);
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel6.setText("Support :");
+        lblConferenceSupport.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblConferenceSupport.setForeground(new java.awt.Color(51, 51, 51));
+        lblConferenceSupport.setText("Support :");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel7.setText("Montant Prestation :");
+        lblConferenceMontantPrest.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblConferenceMontantPrest.setForeground(new java.awt.Color(51, 51, 51));
+        lblConferenceMontantPrest.setText("Montant Prestation :");
 
-        jTextField3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField3.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        txtConferenceMontantPres.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtConferenceMontantPres.setForeground(new java.awt.Color(51, 51, 51));
+        txtConferenceMontantPres.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel9.setText("Activités :");
+        lblConferenceActivites.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblConferenceActivites.setForeground(new java.awt.Color(51, 51, 51));
+        lblConferenceActivites.setText("Activités :");
 
-        jTextField4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField4.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        txtConferenceTitreConf.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtConferenceTitreConf.setForeground(new java.awt.Color(51, 51, 51));
+        txtConferenceTitreConf.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(51, 51, 51));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Ok_30px.png"))); // NOI18N
-        jButton1.setText("Create");
-
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(51, 51, 51));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Trash_30px.png"))); // NOI18N
-        jButton2.setText("Delete");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btConferenceCreate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btConferenceCreate.setForeground(new java.awt.Color(51, 51, 51));
+        btConferenceCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Ok_30px.png"))); // NOI18N
+        btConferenceCreate.setText("Create");
+        btConferenceCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btConferenceCreateActionPerformed(evt);
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(51, 51, 51));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Edit_30px.png"))); // NOI18N
-        jButton3.setText("Update");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btConferenceDelete.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btConferenceDelete.setForeground(new java.awt.Color(51, 51, 51));
+        btConferenceDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Trash_30px.png"))); // NOI18N
+        btConferenceDelete.setText("Delete");
+        btConferenceDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btConferenceDeleteActionPerformed(evt);
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(51, 51, 51));
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Cancel_30px.png"))); // NOI18N
-        jButton4.setText("Cancel");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btConferenceUpdate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btConferenceUpdate.setForeground(new java.awt.Color(51, 51, 51));
+        btConferenceUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Edit_30px.png"))); // NOI18N
+        btConferenceUpdate.setText("Update");
+        btConferenceUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btConferenceUpdateActionPerformed(evt);
             }
         });
 
-        jTextField5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField5.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        btConferenceCancel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btConferenceCancel.setForeground(new java.awt.Color(51, 51, 51));
+        btConferenceCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Cancel_30px.png"))); // NOI18N
+        btConferenceCancel.setText("Cancel");
+        btConferenceCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btConferenceCancelActionPerformed(evt);
+            }
+        });
+
+        txtConferenceActivites.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtConferenceActivites.setForeground(new java.awt.Color(51, 51, 51));
+        txtConferenceActivites.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(51, 51, 51));
@@ -266,13 +294,13 @@ public class FormConference extends javax.swing.JFrame {
         jLabel15.setForeground(new java.awt.Color(51, 51, 51));
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_ID_Verified_30px.png"))); // NOI18N
 
-        jComboBox3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jComboBox3.setForeground(new java.awt.Color(51, 51, 51));
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox3.setBorder(null);
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+        cmbConferenceIdConf.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cmbConferenceIdConf.setForeground(new java.awt.Color(51, 51, 51));
+        cmbConferenceIdConf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selectionnez Conferencier" }));
+        cmbConferenceIdConf.setBorder(null);
+        cmbConferenceIdConf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
+                cmbConferenceIdConfActionPerformed(evt);
             }
         });
 
@@ -280,9 +308,9 @@ public class FormConference extends javax.swing.JFrame {
         jLabel17.setForeground(new java.awt.Color(51, 51, 51));
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_ID_Verified_30px.png"))); // NOI18N
 
-        jTextField6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField6.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        txtConferenceSupport.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtConferenceSupport.setForeground(new java.awt.Color(51, 51, 51));
+        txtConferenceSupport.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(51, 51, 51));
@@ -300,54 +328,54 @@ public class FormConference extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(227, 227, 227)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btConferenceCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btConferenceUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btConferenceDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btConferenceCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                            .addComponent(lblConferenceIdSem)
+                            .addComponent(lblConferenceIdConf)
+                            .addComponent(lblConferenceTitreConf))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cmbConferenceIdSem, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(txtConferenceTitreConf, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmbConferenceIdConf, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel18)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel9))
+                                .addComponent(lblConferenceActivites))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel15)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel6))
+                                .addComponent(lblConferenceSupport))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel17)
                                 .addGap(35, 35, 35)
-                                .addComponent(jLabel7)))
+                                .addComponent(lblConferenceMontantPrest)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtConferenceActivites, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel13))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtConferenceMontantPres, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel19))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtConferenceSupport, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel12)))))
                 .addContainerGap(42, Short.MAX_VALUE))
@@ -361,46 +389,46 @@ public class FormConference extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblConferenceIdSem)
+                                    .addComponent(cmbConferenceIdSem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel6)
-                                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(lblConferenceSupport)
+                                        .addComponent(txtConferenceSupport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel15)
                                     .addComponent(jLabel12))
                                 .addGap(17, 17, 17)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel7)
-                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblConferenceIdConf)
+                                .addComponent(lblConferenceMontantPrest)
+                                .addComponent(cmbConferenceIdConf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtConferenceMontantPres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel17)
                             .addComponent(jLabel19))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblConferenceTitreConf)
+                                    .addComponent(txtConferenceTitreConf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jLabel18))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel9)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(lblConferenceActivites)
+                                .addComponent(txtConferenceActivites, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jLabel13))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btConferenceCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btConferenceUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btConferenceDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btConferenceCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabConference.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -426,7 +454,7 @@ public class FormConference extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabConference);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -446,7 +474,8 @@ public class FormConference extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(1174, 713));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseEntered
@@ -463,25 +492,25 @@ public class FormConference extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jLabel1MousePressed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void cmbConferenceIdSemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConferenceIdSemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_cmbConferenceIdSemActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btConferenceDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConferenceDeleteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btConferenceDeleteActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btConferenceUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConferenceUpdateActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btConferenceUpdateActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btConferenceCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConferenceCancelActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btConferenceCancelActionPerformed
 
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+    private void cmbConferenceIdConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConferenceIdConfActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox3ActionPerformed
+    }//GEN-LAST:event_cmbConferenceIdConfActionPerformed
 
     private void jPanel5MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseEntered
         setJPanelColor(jPanel4);
@@ -495,6 +524,23 @@ public class FormConference extends javax.swing.JFrame {
         new FormMenu().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jPanel5MousePressed
+
+    private void btConferenceCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConferenceCreateActionPerformed
+        int idConf= Integer.parseInt((String) cmbConferenceIdConf.getSelectedItem());
+        int idSem= Integer.parseInt((String) cmbConferenceIdSem.getSelectedItem());
+        String titreConf = (String)txtConferenceTitreConf.getText();
+        String supportConf= (String) txtConferenceSupport.getText();
+        double montantPrest=Double.parseDouble(txtConferenceMontantPres.getText());
+        String activites= (String) txtConferenceActivites.getText();
+        Conference confer=new Conference(idConf, idSem, titreConf, supportConf, montantPrest, activites);
+     try {
+         CreationSeminaire sem=new CreationSeminaire();
+         sem.creerConference(confer);
+         tabConference.setModel(tab.tableModelConference());
+     } catch (ParseException | SQLException ex) {
+         Logger.getLogger(FormConference.class.getName()).log(Level.SEVERE, null, ex);
+     }
+    }//GEN-LAST:event_btConferenceCreateActionPerformed
    private void setColor(JPanel panel){
          panel.setBackground(new Color(197,197,197));
     }
@@ -552,18 +598,24 @@ public class FormConference extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FormConference().setVisible(true);
+                try {
+                    new FormConference().setVisible(true);
+                } catch (ParseException ex) {
+                    Logger.getLogger(FormConference.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(FormConference.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JButton btConferenceCancel;
+    private javax.swing.JButton btConferenceCreate;
+    private javax.swing.JButton btConferenceDelete;
+    private javax.swing.JButton btConferenceUpdate;
+    private javax.swing.JComboBox<String> cmbConferenceIdConf;
+    private javax.swing.JComboBox<String> cmbConferenceIdSem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -573,21 +625,21 @@ public class FormConference extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JLabel lblConferenceActivites;
+    private javax.swing.JLabel lblConferenceIdConf;
+    private javax.swing.JLabel lblConferenceIdSem;
+    private javax.swing.JLabel lblConferenceMontantPrest;
+    private javax.swing.JLabel lblConferenceSupport;
+    private javax.swing.JLabel lblConferenceTitreConf;
+    private javax.swing.JTable tabConference;
+    private javax.swing.JTextField txtConferenceActivites;
+    private javax.swing.JTextField txtConferenceMontantPres;
+    private javax.swing.JTextField txtConferenceSupport;
+    private javax.swing.JTextField txtConferenceTitreConf;
     // End of variables declaration//GEN-END:variables
 }

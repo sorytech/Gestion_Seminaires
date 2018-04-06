@@ -3,13 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/ProceduresJDBC/EditerSeminaire.java</file>
-            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/vues/FormConferencier.java</file>
+            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/vues/FormSeminaire.java</file>
+            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/vues/FormMenu.java</file>
             <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/ProceduresJDBC/EditerAll.java</file>
-            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/models/DefaultTableModele.java</file>
-            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/main/Requetes.java</file>
-            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/ProceduresJDBC/CreationID.java</file>
+            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/models/Conference.java</file>
+            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/models/DefaultTableModeleAll.java</file>
+            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/ProceduresJDBC/ConfirmSemUneSemaineAvantPlan.java</file>
             <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/ProceduresJDBC/CreationSeminaire.java</file>
+            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/models/Creation_Seminaire.java</file>
+            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/models/Seminaire.java</file>
+            <file>file:/C:/Users/hpp/Desktop/Gestion_seminaire/src/vues/FormConference.java</file>
         </group>
     </open-files>
 </project-private>

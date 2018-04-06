@@ -5,22 +5,40 @@
  */
 package vues;
 
+import ProceduresJDBC.CreationSeminaire;
+import ProceduresJDBC.EditerAll;
+import ProceduresJDBC.OuvertureInscription;
 import java.awt.Color;
+import static java.awt.image.ImageObserver.WIDTH;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import models.Animateur;
+import models.InscriptionSeminaire;
+import models.Participant;
+import models.Seminaire;
 
 /**
  *
  * @author hpp
  */
 public class FormInscription extends javax.swing.JFrame {
-
+    EditerAll e = new EditerAll();
     /**
      * Creates new form SignIn
      */
-    public FormInscription() {
+    public FormInscription() throws ParseException, SQLException {
         initComponents();
+        EditerAll e = new EditerAll();
+        for (Seminaire sem : e.editerSeminaire()) {
+            cmbInscriptionSem.addItem(String.valueOf(sem.getId()));
+        }
     }
 
     /**
@@ -38,24 +56,30 @@ public class FormInscription extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        lblInscriptionNom = new javax.swing.JLabel();
+        lblInscriptionPrenom = new javax.swing.JLabel();
+        lblInscriptionTel = new javax.swing.JLabel();
+        lblInscriptionAdr = new javax.swing.JLabel();
+        txtInscriptionTel = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        lblInscriptionEmail = new javax.swing.JLabel();
+        txtInscriptionPrenom = new javax.swing.JTextField();
+        txtInscriptionNom = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jTextField4 = new javax.swing.JTextField();
+        btInscriptionSignup = new javax.swing.JButton();
+        txtInscriptionEmail = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        txtInscriptionAdr = new javax.swing.JTextArea();
+        chxInscriptionInfo = new javax.swing.JCheckBox();
+        cmbInscriptionSem = new javax.swing.JComboBox<>();
+        lblInscriptionSeminaire = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        datePickerInscription = new org.jdesktop.swingx.JXDatePicker();
+        lblInscriptionDate = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -121,46 +145,45 @@ public class FormInscription extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(319, 319, 319)
                 .addComponent(jLabel14)
-                .addContainerGap(531, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addGap(2, 2, 2)
                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 61, Short.MAX_VALUE))
+                .addGap(0, 51, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel2.setText("Nom :");
+        lblInscriptionNom.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblInscriptionNom.setForeground(new java.awt.Color(51, 51, 51));
+        lblInscriptionNom.setText("Nom :");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel3.setText("Prénom :");
+        lblInscriptionPrenom.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblInscriptionPrenom.setForeground(new java.awt.Color(51, 51, 51));
+        lblInscriptionPrenom.setText("Prénom :");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel4.setText("Téléphone :");
+        lblInscriptionTel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblInscriptionTel.setForeground(new java.awt.Color(51, 51, 51));
+        lblInscriptionTel.setText("Téléphone :");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel5.setText("Adresse :");
+        lblInscriptionAdr.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblInscriptionAdr.setForeground(new java.awt.Color(51, 51, 51));
+        lblInscriptionAdr.setText("Adresse :");
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        txtInscriptionTel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtInscriptionTel.setForeground(new java.awt.Color(51, 51, 51));
+        txtInscriptionTel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(51, 51, 51));
@@ -170,43 +193,43 @@ public class FormInscription extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(51, 51, 51));
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Name_30px.png"))); // NOI18N
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel8.setText("E-mail :");
+        lblInscriptionEmail.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblInscriptionEmail.setForeground(new java.awt.Color(51, 51, 51));
+        lblInscriptionEmail.setText("E-mail :");
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        txtInscriptionPrenom.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtInscriptionPrenom.setForeground(new java.awt.Color(51, 51, 51));
+        txtInscriptionPrenom.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
-        jTextField3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField3.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        txtInscriptionNom.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtInscriptionNom.setForeground(new java.awt.Color(51, 51, 51));
+        txtInscriptionNom.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(51, 51, 51));
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Email_30px.png"))); // NOI18N
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(51, 51, 51));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Ok_30px.png"))); // NOI18N
-        jButton1.setText("Sign Up");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btInscriptionSignup.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btInscriptionSignup.setForeground(new java.awt.Color(51, 51, 51));
+        btInscriptionSignup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Ok_30px.png"))); // NOI18N
+        btInscriptionSignup.setText("Sign Up");
+        btInscriptionSignup.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton1MouseEntered(evt);
+                btInscriptionSignupMouseEntered(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                jButton1MousePressed(evt);
+                btInscriptionSignupMousePressed(evt);
             }
         });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btInscriptionSignup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btInscriptionSignupActionPerformed(evt);
             }
         });
 
-        jTextField4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField4.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        txtInscriptionEmail.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtInscriptionEmail.setForeground(new java.awt.Color(51, 51, 51));
+        txtInscriptionEmail.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(51, 51, 51));
@@ -216,102 +239,132 @@ public class FormInscription extends javax.swing.JFrame {
         jLabel11.setForeground(new java.awt.Color(51, 51, 51));
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Name_30px.png"))); // NOI18N
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtInscriptionAdr.setColumns(20);
+        txtInscriptionAdr.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtInscriptionAdr.setRows(5);
+        jScrollPane1.setViewportView(txtInscriptionAdr);
 
-        jCheckBox1.setText("Je souhaite qu'on m'informe des nouveautés, seminaires de formation ");
+        chxInscriptionInfo.setText("Je souhaite qu'on m'informe des nouveautés, seminaires de formation ");
+
+        cmbInscriptionSem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choisir un seminaire" }));
+
+        lblInscriptionSeminaire.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblInscriptionSeminaire.setForeground(new java.awt.Color(51, 51, 51));
+        lblInscriptionSeminaire.setText("Seminaire :");
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Checked_Checkbox_30px.png"))); // NOI18N
+
+        lblInscriptionDate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblInscriptionDate.setForeground(new java.awt.Color(51, 51, 51));
+        lblInscriptionDate.setText("Date :");
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Date_To_30px.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel4))
-                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblInscriptionPrenom, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblInscriptionNom, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblInscriptionSeminaire, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblInscriptionDate, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGap(23, 23, 23))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(lblInscriptionTel)
+                                .addGap(18, 18, 18))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jCheckBox1)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGap(40, 40, 40)
+                                .addComponent(lblInscriptionEmail))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jScrollPane1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel10))
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
-                                    .addComponent(jTextField2)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))))
-                        .addContainerGap())
+                                .addContainerGap()
+                                .addComponent(lblInscriptionAdr)))
+                        .addGap(23, 23, 23)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jTextField4)
+                        .addComponent(chxInscriptionInfo)
+                        .addContainerGap(125, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(cmbInscriptionSem, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtInscriptionEmail, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtInscriptionTel)
+                            .addComponent(txtInscriptionPrenom, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtInscriptionNom)
+                            .addComponent(jScrollPane1)
+                            .addComponent(datePickerInscription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel6)
-                        .addGap(9, 9, 9))))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(278, 278, 278)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(48, 48, 48))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btInscriptionSignup, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(197, 197, 197))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addGap(13, 13, 13)
+                        .addGap(19, 19, 19)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtInscriptionNom, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblInscriptionNom)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel11)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel3))
-                            .addComponent(jLabel11)))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2)))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4))
-                    .addComponent(jLabel9))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtInscriptionPrenom, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblInscriptionPrenom, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtInscriptionTel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblInscriptionTel)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel9)
+                            .addComponent(txtInscriptionEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblInscriptionEmail))
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblInscriptionSeminaire)
+                            .addComponent(cmbInscriptionSem, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6)))
-                .addGap(31, 31, 31)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(15, 15, 15)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(datePickerInscription, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblInscriptionDate, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox1)
-                .addGap(36, 36, 36)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(138, 138, 138))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblInscriptionAdr)
+                    .addComponent(jLabel10)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(chxInscriptionInfo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btInscriptionSignup, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel3.setBackground(new java.awt.Color(45, 118, 232));
@@ -336,7 +389,7 @@ public class FormInscription extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(144, 144, 144)
                         .addComponent(jLabel12)))
-                .addContainerGap(119, Short.MAX_VALUE))
+                .addContainerGap(159, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -345,7 +398,7 @@ public class FormInscription extends javax.swing.JFrame {
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel13)
-                .addContainerGap(213, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -354,22 +407,21 @@ public class FormInscription extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        setSize(new java.awt.Dimension(1047, 634));
+        setSize(new java.awt.Dimension(1047, 683));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -387,23 +439,62 @@ public class FormInscription extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jLabel1MousePressed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btInscriptionSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInscriptionSignupActionPerformed
+        String nomPart= (String) txtInscriptionNom.getText();
+        String prenomPart= (String)  txtInscriptionPrenom.getText();
+        int telPart = Integer.parseInt(txtInscriptionTel.getText());
+        String emailPart= (String) txtInscriptionEmail.getText();
+        String adrPart= (String) txtInscriptionAdr.getText();
+        int idsem = Integer.parseInt((String)cmbInscriptionSem.getSelectedItem());
+        Date dateIns=datePickerInscription.getDate();
+        Participant partcip=new Participant(WIDTH, nomPart, prenomPart, adrPart, telPart, emailPart);
+        OuvertureInscription inscrip = null;
+        try {
+            inscrip = new OuvertureInscription();
+        } catch (ParseException ex) {
+            Logger.getLogger(FormInscription.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            int idpart=inscrip.creerParticipant(partcip);
+            int nbrPlaceMax = e.nbrPlaceMaxSeminaire(idsem);
+            int nbrReserver = e.nbrPlaceMaxReserverSeminaire(idsem);
+            OuvertureInscription inscSem =new OuvertureInscription();
+            if(nbrReserver < nbrPlaceMax){
+              InscriptionSeminaire inscription=new InscriptionSeminaire(idpart, idsem, dateIns, "confirme");
+               System.out.println(" ok "+inscription.getIdParticipant()+" "+inscription.getIdSeminaire()+" "+inscription.getDate()+" "+inscription.getEtat());
+               inscSem.Inscription(inscription);
+            }else{
+              InscriptionSeminaire inscription=new InscriptionSeminaire(idpart, idsem, dateIns, "attente");
+              System.out.println(" ok "+inscription.getIdParticipant()+" "+inscription.getIdSeminaire()+" "+inscription.getDate()+" "+inscription.getEtat());
+              inscSem.Inscription(inscription);
+            }  
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(FormInscription.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(FormInscription.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+        if(chxInscriptionInfo.isSelected()){
+            JOptionPane jop1;
+            jop1 = new JOptionPane();
+            jop1.showMessageDialog(null, "Merci de votre inscription", "Information", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btInscriptionSignupActionPerformed
 
     private void jLabel16MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MousePressed
         new FormMenu().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jLabel16MousePressed
 
-    private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
+    private void btInscriptionSignupMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btInscriptionSignupMousePressed
          new FormMenu().setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_jButton1MousePressed
+    }//GEN-LAST:event_btInscriptionSignupMousePressed
 
-    private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
+    private void btInscriptionSignupMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btInscriptionSignupMouseEntered
        
-    }//GEN-LAST:event_jButton1MouseEntered
+    }//GEN-LAST:event_btInscriptionSignupMouseEntered
     private void setColor(JPanel panel) {
         panel.setBackground(new Color(197, 197, 197));
     }
@@ -473,14 +564,22 @@ public class FormInscription extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FormInscription().setVisible(true);
+                try {
+                    new FormInscription().setVisible(true);
+                } catch (ParseException ex) {
+                    Logger.getLogger(FormInscription.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(FormInscription.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JButton btInscriptionSignup;
+    private javax.swing.JCheckBox chxInscriptionInfo;
+    private javax.swing.JComboBox<String> cmbInscriptionSem;
+    private org.jdesktop.swingx.JXDatePicker datePickerInscription;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -490,21 +589,25 @@ public class FormInscription extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JLabel lblInscriptionAdr;
+    private javax.swing.JLabel lblInscriptionDate;
+    private javax.swing.JLabel lblInscriptionEmail;
+    private javax.swing.JLabel lblInscriptionNom;
+    private javax.swing.JLabel lblInscriptionPrenom;
+    private javax.swing.JLabel lblInscriptionSeminaire;
+    private javax.swing.JLabel lblInscriptionTel;
+    private javax.swing.JTextArea txtInscriptionAdr;
+    private javax.swing.JTextField txtInscriptionEmail;
+    private javax.swing.JTextField txtInscriptionNom;
+    private javax.swing.JTextField txtInscriptionPrenom;
+    private javax.swing.JTextField txtInscriptionTel;
     // End of variables declaration//GEN-END:variables
 }

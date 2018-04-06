@@ -7,40 +7,47 @@ package models;
 
 import java.util.Date;
 
-
-
 /**
  *
  * @author hpp
  */
 public class Seminaire {
+
     private int id;
-    private String theme;
-    private double tarif;
-    private int nombreMaxPlace;
-    private enum duree {MATIN, APRES_MIDI,JOURNEE};
-    private Date date;
     private int idAnimateur;
     private int idPrestataire;
     private int idSalle;
+    private String theme;
+    private int nombreMaxPlace;
+    private double tarif;
+    private String duree ;
+    private Date date;
 
-    public Seminaire(int id, String theme, double tarif, int nombreMaxPlace, Date date, int idAnimateur, int idPrestataire, int idSalle) {
+    public Seminaire(int id, int idAnimateur, int idPrestataire, int idSalle, String theme, int nombreMaxPlace, double tarif,String duree, Date date) {
         this.id = id;
-        this.theme = theme;
-        this.tarif = tarif;
-        this.nombreMaxPlace = nombreMaxPlace;
-        this.date = date;
         this.idAnimateur = idAnimateur;
         this.idPrestataire = idPrestataire;
         this.idSalle = idSalle;
+        this.theme = theme;
+        this.nombreMaxPlace = nombreMaxPlace;
+        this.tarif = tarif;
+        this.duree=duree;
+        this.date = date;
     }
 
-    
     public Seminaire() {
     }
 
     public int getId() {
         return id;
+    }
+
+    public String getDuree() {
+        return duree;
+    }
+
+    public void setDuree(String duree) {
+        this.duree = duree;
     }
 
     public void setId(int id) {
@@ -103,6 +110,4 @@ public class Seminaire {
         this.idSalle = idSalle;
     }
 
-    
-    
 }

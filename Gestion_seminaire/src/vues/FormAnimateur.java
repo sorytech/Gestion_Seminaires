@@ -5,6 +5,15 @@
  */
 package vues;
 
+import ProceduresJDBC.CreationSeminaire;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import models.Animateur;
+
 /**
  *
  * @author hpp
@@ -36,24 +45,24 @@ public class FormAnimateur extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        lblAnimNom = new javax.swing.JLabel();
+        lblAnimPrenom = new javax.swing.JLabel();
+        lblAnimTel = new javax.swing.JLabel();
+        lblAnimAdr = new javax.swing.JLabel();
+        txtAnimTel = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
+        lblAnimEmail = new javax.swing.JLabel();
+        txtAnimPrenom = new javax.swing.JTextField();
+        txtAnimNom = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jTextField8 = new javax.swing.JTextField();
+        btAnimSignup = new javax.swing.JButton();
+        txtAnimEmail = new javax.swing.JTextField();
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        txtAnimAdr = new javax.swing.JTextArea();
+        chxAnimInfo = new javax.swing.JCheckBox();
 
         setLocationByPlatform(true);
         setUndecorated(true);
@@ -171,25 +180,25 @@ public class FormAnimateur extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel15.setText("Nom :");
+        lblAnimNom.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblAnimNom.setForeground(new java.awt.Color(51, 51, 51));
+        lblAnimNom.setText("Nom :");
 
-        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel17.setText("Prénom :");
+        lblAnimPrenom.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblAnimPrenom.setForeground(new java.awt.Color(51, 51, 51));
+        lblAnimPrenom.setText("Prénom :");
 
-        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel18.setText("Téléphone :");
+        lblAnimTel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblAnimTel.setForeground(new java.awt.Color(51, 51, 51));
+        lblAnimTel.setText("Téléphone :");
 
-        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel19.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel19.setText("Adresse :");
+        lblAnimAdr.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblAnimAdr.setForeground(new java.awt.Color(51, 51, 51));
+        lblAnimAdr.setText("Adresse :");
 
-        jTextField5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField5.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        txtAnimTel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtAnimTel.setForeground(new java.awt.Color(51, 51, 51));
+        txtAnimTel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(51, 51, 51));
@@ -199,43 +208,43 @@ public class FormAnimateur extends javax.swing.JFrame {
         jLabel21.setForeground(new java.awt.Color(51, 51, 51));
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Name_30px.png"))); // NOI18N
 
-        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel22.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel22.setText("E-mail :");
+        lblAnimEmail.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblAnimEmail.setForeground(new java.awt.Color(51, 51, 51));
+        lblAnimEmail.setText("E-mail :");
 
-        jTextField6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField6.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        txtAnimPrenom.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtAnimPrenom.setForeground(new java.awt.Color(51, 51, 51));
+        txtAnimPrenom.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
-        jTextField7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField7.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        txtAnimNom.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtAnimNom.setForeground(new java.awt.Color(51, 51, 51));
+        txtAnimNom.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
         jLabel23.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(51, 51, 51));
         jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Email_30px.png"))); // NOI18N
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(51, 51, 51));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Ok_30px.png"))); // NOI18N
-        jButton2.setText("Sign Up");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+        btAnimSignup.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btAnimSignup.setForeground(new java.awt.Color(51, 51, 51));
+        btAnimSignup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Ok_30px.png"))); // NOI18N
+        btAnimSignup.setText("Sign Up");
+        btAnimSignup.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton2MouseEntered(evt);
+                btAnimSignupMouseEntered(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                jButton2MousePressed(evt);
+                btAnimSignupMousePressed(evt);
             }
         });
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btAnimSignup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btAnimSignupActionPerformed(evt);
             }
         });
 
-        jTextField8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField8.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
+        txtAnimEmail.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtAnimEmail.setForeground(new java.awt.Color(51, 51, 51));
+        txtAnimEmail.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 51)));
 
         jLabel24.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(51, 51, 51));
@@ -245,12 +254,12 @@ public class FormAnimateur extends javax.swing.JFrame {
         jLabel25.setForeground(new java.awt.Color(51, 51, 51));
         jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Name_30px.png"))); // NOI18N
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        txtAnimAdr.setColumns(20);
+        txtAnimAdr.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtAnimAdr.setRows(5);
+        jScrollPane2.setViewportView(txtAnimAdr);
 
-        jCheckBox2.setText("Je souhaite qu'on m'informe des nouveautés, seminaires de formation ");
+        chxAnimInfo.setText("Je souhaite qu'on m'informe des nouveautés, seminaires de formation ");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -262,19 +271,19 @@ public class FormAnimateur extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel15)))
+                            .addComponent(lblAnimPrenom)
+                            .addComponent(lblAnimNom)))
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel18))
-                    .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addComponent(lblAnimAdr, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(lblAnimTel))
+                    .addComponent(lblAnimEmail, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jCheckBox2)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(chxAnimInfo)
+                                .addGap(0, 152, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                                 .addComponent(jScrollPane2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -282,64 +291,62 @@ public class FormAnimateur extends javax.swing.JFrame {
                             .addComponent(jLabel21, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jTextField7, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
-                                    .addComponent(jTextField6)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addComponent(txtAnimNom, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
+                                    .addComponent(txtAnimPrenom)
+                                    .addComponent(txtAnimTel, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel25)
-                                    .addComponent(jLabel23, javax.swing.GroupLayout.Alignment.TRAILING))))
+                                    .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.TRAILING))))
                         .addContainerGap())
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jTextField8)
+                        .addComponent(txtAnimEmail)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel20)
+                        .addComponent(jLabel23)
                         .addGap(9, 9, 9))))
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(278, 278, 278)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btAnimSignup, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel21)
-                        .addGap(13, 13, 13)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel21)
+                                .addGap(13, 13, 13)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(txtAnimPrenom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblAnimPrenom))
+                                    .addComponent(jLabel25)))
                             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel17))
-                            .addComponent(jLabel25)))
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel15)))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel18))
-                    .addComponent(jLabel23))
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
+                                .addComponent(txtAnimNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblAnimNom)))
+                        .addGap(29, 29, 29)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel22)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel20)))
+                            .addComponent(txtAnimTel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblAnimTel)))
+                    .addComponent(jLabel20))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtAnimEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblAnimEmail))
+                    .addComponent(jLabel23))
                 .addGap(31, 31, 31)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel19)
+                    .addComponent(lblAnimAdr)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel24))
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox2)
+                .addComponent(chxAnimInfo)
                 .addGap(36, 36, 36)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btAnimSignup, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(138, 138, 138))
         );
 
@@ -359,7 +366,7 @@ public class FormAnimateur extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 494, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -385,18 +392,34 @@ public class FormAnimateur extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jLabel1MousePressed
 
-    private void jButton2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseEntered
+    private void btAnimSignupMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btAnimSignupMouseEntered
 
-    }//GEN-LAST:event_jButton2MouseEntered
+    }//GEN-LAST:event_btAnimSignupMouseEntered
 
-    private void jButton2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MousePressed
+    private void btAnimSignupMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btAnimSignupMousePressed
         new FormMenu().setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_jButton2MousePressed
+    }//GEN-LAST:event_btAnimSignupMousePressed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btAnimSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAnimSignupActionPerformed
+        String nomAnim= (String) txtAnimNom.getText();
+        String prenomAnim= (String) txtAnimPrenom.getText();
+        int telAnim = Integer.parseInt(txtAnimTel.getText());
+        String emailAnim= (String) txtAnimEmail.getText();
+        String adrAnim= (String) txtAnimAdr.getText();
+        Animateur anim=new Animateur(WIDTH, nomAnim, prenomAnim, adrAnim, telAnim, emailAnim);
+        try {
+            CreationSeminaire sem=new CreationSeminaire();
+            sem.creerAnimateur(anim);
+            if(chxAnimInfo.isSelected()){
+                JOptionPane jop1;
+                jop1 = new JOptionPane();
+                jop1.showMessageDialog(null, "Merci de votre inscription", "Information", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (ParseException | SQLException ex) {
+            Logger.getLogger(FormAnimateur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btAnimSignupActionPerformed
 
     /**
      * @param args the command line arguments
@@ -435,20 +458,15 @@ public class FormAnimateur extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JButton btAnimSignup;
+    private javax.swing.JCheckBox chxAnimInfo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
@@ -457,10 +475,15 @@ public class FormAnimateur extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
+    private javax.swing.JLabel lblAnimAdr;
+    private javax.swing.JLabel lblAnimEmail;
+    private javax.swing.JLabel lblAnimNom;
+    private javax.swing.JLabel lblAnimPrenom;
+    private javax.swing.JLabel lblAnimTel;
+    private javax.swing.JTextArea txtAnimAdr;
+    private javax.swing.JTextField txtAnimEmail;
+    private javax.swing.JTextField txtAnimNom;
+    private javax.swing.JTextField txtAnimPrenom;
+    private javax.swing.JTextField txtAnimTel;
     // End of variables declaration//GEN-END:variables
 }

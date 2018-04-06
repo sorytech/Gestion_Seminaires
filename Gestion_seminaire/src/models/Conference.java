@@ -10,20 +10,22 @@ package models;
  * @author hpp
  */
 public class Conference {
+    private int idConferencier;
+    private int idSeminaire;
     private String titre;
     private String support;
     private double montantPrestation;
     private String activites;
-    private int idConferencier;
-    private int idSeminaire;
+   
 
-    public Conference(String titre, String support, double montantPrestation, String activites, int idConferencier, int idSeminaire) {
+    public Conference( int idConferencier, int idSeminaire,String titre, String support, double montantPrestation, String activites) {
+        this.idConferencier = idConferencier;
+        this.idSeminaire = idSeminaire;
         this.titre = titre;
         this.support = support;
         this.montantPrestation = montantPrestation;
         this.activites = activites;
-        this.idConferencier = idConferencier;
-        this.idSeminaire = idSeminaire;
+        
     }
 
   
