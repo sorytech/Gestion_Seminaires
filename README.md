@@ -4,7 +4,7 @@
 ### Modélisation BD
 
 ### FrontEnd
- 	[https://github.com/sorytech/Gestion_Seminaires/blob/master/InterfaceApplication/Menu.PNG]()
+ 
 
 ### BackEnd
 
